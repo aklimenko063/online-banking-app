@@ -30,19 +30,21 @@ public class BankPartnerIntegrationService {
                 bankProperties.getPartnerPort(),
                 API_URL);
         OperationReceiveDtoRq receiveDtoRq = converterComponent.convertTransferDtoRqToOperationReceiveRq(dtoRq);
-        String json;
+
+        String jsonBody;
         try {
-            json = objectMapper.writeValueAsString(receiveDtoRq);
+            jsonBody = objectMapper.writeValueAsString(receiveDtoRq);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
 
         RequestEntity<String> requestBankReceive = RequestEntity
                 .post(baseUrl + POSTFIX_URL)
                 .headers(headers)
-                .body(json);
+                .body(jsonBody);
         ResponseEntity<OperationDtoRs> responseBankReceive;
         try {
             responseBankReceive = restTemplate.exchange(requestBankReceive, OperationDtoRs.class);
