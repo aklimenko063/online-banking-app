@@ -1,4 +1,4 @@
-package org.javaacademy.onlinebankingapp.controller;
+package org.javaacademy.onlinebankingapp.controller.api.v1;
 
 import lombok.RequiredArgsConstructor;
 import org.javaacademy.onlinebankingapp.dto.AccountDtoRq;
@@ -14,7 +14,7 @@ import static org.springframework.http.ResponseEntity.status;
 @RestController
 @RequestMapping("/api/v1/account")
 @RequiredArgsConstructor
-public class AccountControllerV1 {
+public class AccountRestController {
     private final AccountService accountService;
     private final UserService userService;
 
@@ -39,9 +39,11 @@ public class AccountControllerV1 {
     }
 
     @GetMapping("/{numberAccount}")
-    public ResponseEntity<?> getBalanceAccounts(@PathVariable String numberAccount) {
+    public ResponseEntity<?> getBalanceAccounts(@PathVariable String numberAccount,
+                                                @RequestHeader String token) {
         try {
-            return status(ACCEPTED).body(accountService.getAccountBalance(numberAccount));
+            UserDtoRs userDtoRs = userService.getUserByToken(token);
+            return status(ACCEPTED).body(accountService.getAccountBalance(numberAccount, userDtoRs));
         } catch (Exception e) {
             return status(FORBIDDEN).body(e.getMessage());
         }

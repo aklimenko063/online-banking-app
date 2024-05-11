@@ -1,18 +1,14 @@
 package org.javaacademy.onlinebankingapp.service;
 
-import org.javaacademy.onlinebankingapp.dto.OperationDtoRq;
-import org.javaacademy.onlinebankingapp.dto.OperationDtoRs;
-import org.javaacademy.onlinebankingapp.dto.UserDtoRs;
-import org.javaacademy.onlinebankingapp.dto.UserRegistrationDtoRq;
+import org.javaacademy.onlinebankingapp.dto.*;
 import org.javaacademy.onlinebankingapp.entity.Operation;
 import org.javaacademy.onlinebankingapp.entity.User;
-import org.javaacademy.onlinebankingapp.enums.TypeOperation;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-@Service
-public class ConverterService {
+@Component
+public class ConverterComponent {
 
 	public User convertUserRegistrationDtoRqToUserEntity(UserRegistrationDtoRq userRegistrationDtoRq) {
 		return new User(userRegistrationDtoRq.getFullName(),
@@ -27,7 +23,7 @@ public class ConverterService {
 				.build();
 	}
 
-	public OperationDtoRs convertOperationEntityToOperationRs(Operation operation) {
+	public OperationDtoRs convertOperationEntityToOperationDtoRs(Operation operation) {
 		return OperationDtoRs.builder()
 				.uuid(operation.getUuid())
 				.creationDateTime(operation.getCreationDateTime())
@@ -38,11 +34,33 @@ public class ConverterService {
 				.build();
 	}
 
-	public Operation convertOperationRqToOperationEntity(OperationDtoRq dtoRq) {
+	public Operation convertOperationPayRqToOperationEntity(OperationPayDtoRq dtoRq) {
 		return new Operation(
 					LocalDateTime.now(),
-					dtoRq.getAccountNumber(),
+					dtoRq.getAccountNumberFrom(),
 					dtoRq.getSum(),
 					dtoRq.getPurposeOfPayment());
+	}
+
+	public Operation convertOperationReceiveRqToOperationEntity(OperationReceiveDtoRq dtoRq) {
+		return new Operation(
+				LocalDateTime.now(),
+				dtoRq.getAccountNumber(),
+				dtoRq.getSum(),
+				dtoRq.getPurposeOfPayment());
+	}
+
+	public TransferDtoRq convertOperationPayRqToTransferDtoRq(OperationPayDtoRq dtoRq) {
+		return new TransferDtoRq(
+				dtoRq.getSum(),
+				dtoRq.getPurposeOfPayment(),
+				dtoRq.getAccountNumberTo());
+	}
+
+	public OperationReceiveDtoRq convertTransferDtoRqToOperationReceiveRq(TransferDtoRq dtoRq) {
+		return new OperationReceiveDtoRq(
+				dtoRq.getSum(),
+				dtoRq.getNumberAccountTo(),
+				dtoRq.getPurposeOfPayment());
 	}
 }

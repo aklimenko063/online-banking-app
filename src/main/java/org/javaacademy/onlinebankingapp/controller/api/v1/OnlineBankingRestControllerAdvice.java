@@ -1,4 +1,4 @@
-package org.javaacademy.onlinebankingapp.controller;
+package org.javaacademy.onlinebankingapp.controller.api.v1;
 
 import org.javaacademy.onlinebankingapp.exception.*;
 import org.springframework.http.HttpStatus;
@@ -7,7 +7,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class OnlineBankingControllerAdvice {
+public class OnlineBankingRestControllerAdvice {
+
+	@ExceptionHandler(ServiceIntegrationException.class)
+	public ResponseEntity<String> handleServiceIntegrationException(Exception e) {
+		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+				.body(e.getMessage());
+	}
 
 	@ExceptionHandler(AccountBalanceLessZeroException.class)
 	public ResponseEntity<String> handleAccountBalanceLessZeroException(Exception e) {

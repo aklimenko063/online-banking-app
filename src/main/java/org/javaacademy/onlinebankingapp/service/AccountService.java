@@ -1,11 +1,13 @@
 package org.javaacademy.onlinebankingapp.service;
 
 import lombok.Data;
+import org.javaacademy.onlinebankingapp.config.BankProperties;
 import org.javaacademy.onlinebankingapp.dto.UserDtoRs;
 import org.javaacademy.onlinebankingapp.entity.Account;
 import org.javaacademy.onlinebankingapp.exception.AccountBalanceLessZeroException;
 import org.javaacademy.onlinebankingapp.exception.AccountNotFoundException;
 import org.javaacademy.onlinebankingapp.repository.AccountRepositoryInterface;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,9 +17,9 @@ import java.util.Objects;
 @Service
 @Data
 public class AccountService {
-    private final static long ACCOUNT_PREFIX_NUMBER = 4081_0000_0000_0000L;
     private final static long FIRST_NUMBER_ACCOUNT = 0000_0000_0001L;
     private final AccountRepositoryInterface accountRepository;
+    private final BankProperties bankProperties;
 
     public String addNewAccount(UserDtoRs dtoRs) {
         Account newAccount = new Account(generateAccountNumber(), dtoRs.getUser());
@@ -32,8 +34,12 @@ public class AccountService {
                 .toList();
     }
 
-    public BigDecimal getAccountBalance(String numberAccount) {
+    public BigDecimal getAccountBalance(String numberAccount, UserDtoRs dtoRs) {
+        checkUserAccount(dtoRs, numberAccount);
         Account account = findByNumberAccount(numberAccount);
+        if (!checkUserAccount(dtoRs, numberAccount)) {
+            throw new AccountNotFoundException("Некорректный токен. Счет не принадлежит пользователю!");
+        }
         return account.getBalance();
     }
 
@@ -58,7 +64,7 @@ public class AccountService {
 
     private String generateAccountNumber() {
         if (accountRepository.isEmpty()) {
-            return String.valueOf(ACCOUNT_PREFIX_NUMBER + FIRST_NUMBER_ACCOUNT);
+            return String.valueOf(bankProperties.getAccountPrefixNumber() + FIRST_NUMBER_ACCOUNT);
         } else {
             String lastNumberAccount = accountRepository.getLastNumberAccount();
             Long lastNumber = Long.parseLong(lastNumberAccount);

@@ -1,43 +1,60 @@
 package org.javaacademy.onlinebankingapp.service;
 
 import lombok.Data;
-import org.javaacademy.onlinebankingapp.dto.OperationDtoRq;
+import org.javaacademy.onlinebankingapp.dto.OperationPayDtoRq;
 import org.javaacademy.onlinebankingapp.dto.OperationDtoRs;
+import org.javaacademy.onlinebankingapp.dto.OperationReceiveDtoRq;
 import org.javaacademy.onlinebankingapp.dto.UserDtoRs;
 import org.javaacademy.onlinebankingapp.entity.Operation;
-import org.javaacademy.onlinebankingapp.enums.TypeOperation;
-import org.javaacademy.onlinebankingapp.repository.impl.OperationRepository;
+import org.javaacademy.onlinebankingapp.repository.OperationRepositoryInterface;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
+
+import static org.javaacademy.onlinebankingapp.enums.TypeOperation.INCOME;
+import static org.javaacademy.onlinebankingapp.enums.TypeOperation.OUTCOME;
 
 @Service
 @Data
 public class OperationService {
-	private final OperationRepository operationRepository;
+	private final OperationRepositoryInterface operationRepository;
 	private final AccountService accountService;
-	private final ConverterService converterService;
+	private final ConverterComponent converterComponent;
 
-	public List<Operation> getAllOperationByNumberAccount(String numberAccount) {
-		return operationRepository.getAllOperationByNumberAccount(numberAccount);
+	public SortedSet<Operation> getAllOperationByNumberAccount(String numberAccount) {
+		SortedSet<Operation> operations = new TreeSet<>(comparator(Operation::getCreationDateTime));
+		List<Operation> allOperationByNumberAccount = operationRepository.getAllOperationByNumberAccount(numberAccount);
+		operations.addAll(allOperationByNumberAccount);
+		return operations;
 	}
 
-	public OperationDtoRs addOperation(OperationDtoRq dtoRq, TypeOperation typeOperation) {
-		Operation operation = converterService.convertOperationRqToOperationEntity(dtoRq);
-		operation.setTypeOperation(typeOperation);
+	public OperationDtoRs addPayOperation(OperationPayDtoRq dtoRq) {
+		Operation operation = converterComponent.convertOperationPayRqToOperationEntity(dtoRq);
+		operation.setTypeOperation(OUTCOME);
 		Operation operationDb = operationRepository.addOperation(operation);
-		return converterService.convertOperationEntityToOperationRs(operationDb);
+		return converterComponent.convertOperationEntityToOperationDtoRs(operationDb);
 	}
 
-	public List<OperationDtoRs> getAllOperationByUser(UserDtoRs userDtoRs) {
+	public OperationDtoRs addReceiveOperation(OperationReceiveDtoRq dtoRq) {
+		Operation operation = converterComponent.convertOperationReceiveRqToOperationEntity(dtoRq);
+		operation.setTypeOperation(INCOME);
+		Operation operationDb = operationRepository.addOperation(operation);
+		return converterComponent.convertOperationEntityToOperationDtoRs(operationDb);
+	}
+
+	public SortedSet<OperationDtoRs> getAllOperationByUser(UserDtoRs userDtoRs) {
 		List<String> allUserAccounts = accountService.getAllUserAccounts(userDtoRs);
-		List<Operation> allOperation = new ArrayList<>();
-		allUserAccounts.forEach(e -> allOperation.addAll(getAllOperationByNumberAccount(e)));
-		return allOperation.stream()
-				.map(e -> converterService.convertOperationEntityToOperationRs(e))
-				.toList();
+		SortedSet<Operation> operations = new TreeSet<>(comparator(Operation::getCreationDateTime));
+		SortedSet<OperationDtoRs> allOperations = new TreeSet<>(comparator(OperationDtoRs::getCreationDateTime));
+		allUserAccounts.forEach(e -> operations.addAll(getAllOperationByNumberAccount(e)));
+		allOperations.addAll(operations.stream()
+				.map(e -> converterComponent.convertOperationEntityToOperationDtoRs(e))
+				.toList());
+		return allOperations;
+	}
+
+	private <T, U extends Comparable<? super U>> Comparator<T> comparator(Function<T, U> keyExtractor) {
+		return Comparator.comparing(keyExtractor).reversed();
 	}
 }

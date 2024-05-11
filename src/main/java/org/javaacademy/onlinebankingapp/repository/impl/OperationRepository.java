@@ -12,7 +12,6 @@ import java.util.*;
 public class OperationRepository implements OperationRepositoryInterface {
 	private final Map<LocalDateTime, Operation> operationRepositoryDb = new TreeMap<>();
 
-	//TODO изменить сортировку
 	public List<Operation> getAllOperationByNumberAccount(String numberAccount) {
 		return operationRepositoryDb.values()
 				.stream()

@@ -1,5 +1,6 @@
 package org.javaacademy.onlinebankingapp.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import org.javaacademy.onlinebankingapp.enums.TypeOperation;

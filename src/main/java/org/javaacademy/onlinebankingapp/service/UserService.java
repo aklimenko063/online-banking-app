@@ -17,13 +17,13 @@ public class UserService {
     private final UserRepositoryInterface userRepository;
     private final AuthenticationService authenticationService;
     private final SecurityService securityService;
-    private final ConverterService converterService;
+    private final ConverterComponent converterComponent;
 
     public String userRegistration(UserRegistrationDtoRq userRegistrationDtoRq) {
         if (userRepository.searchUserByPhoneNumber(userRegistrationDtoRq.getPhoneNumber())) {
             throw new RegistrationException("Пользователь с таким телефоном уже зарегистрирован в системе!");
         }
-        User addedUser = userRepository.addUser(converterService.convertUserRegistrationDtoRqToUserEntity(userRegistrationDtoRq));
+        User addedUser = userRepository.addUser(converterComponent.convertUserRegistrationDtoRqToUserEntity(userRegistrationDtoRq));
         String pinCode = securityService.generatePin();
         authenticationService.addNewUserData(addedUser.getUuid(), pinCode);
         return pinCode;
@@ -43,6 +43,6 @@ public class UserService {
         UUID uuid = securityService.getUserUuidByToken(token);
         User user = userRepository.getUserByUuid(uuid)
                 .orElseThrow(() -> new AuthenticateException("Пользователь по токену не найден!"));
-        return converterService.convertUserEntityToUserDtoRs(user);
+        return converterComponent.convertUserEntityToUserDtoRs(user);
     }
 }

@@ -1,10 +1,9 @@
-package org.javaacademy.onlinebankingapp.controller;
+package org.javaacademy.onlinebankingapp.controller.api.v1;
 
 import lombok.RequiredArgsConstructor;
-import org.javaacademy.onlinebankingapp.dto.OperationDtoRq;
-import org.javaacademy.onlinebankingapp.dto.UserDtoRs;
+import org.javaacademy.onlinebankingapp.dto.OperationPayDtoRq;
+import org.javaacademy.onlinebankingapp.dto.OperationReceiveDtoRq;
 import org.javaacademy.onlinebankingapp.service.BankService;
-import org.javaacademy.onlinebankingapp.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +13,7 @@ import static org.springframework.http.ResponseEntity.status;
 @RestController
 @RequestMapping("/api/v1/operations")
 @RequiredArgsConstructor
-public class OperationControllerV1 {
+public class OperationRestController {
 	private final BankService bankService;
 
 	@GetMapping
@@ -27,7 +26,7 @@ public class OperationControllerV1 {
 	}
 
 	@PostMapping("/pay")
-	public ResponseEntity<?> pay(@RequestBody OperationDtoRq dtoRq) {
+	public ResponseEntity<?> pay(@RequestBody OperationPayDtoRq dtoRq) {
 		try {
 			return status(CREATED).body(bankService.pay(dtoRq));
 		} catch (Exception e) {
@@ -36,7 +35,7 @@ public class OperationControllerV1 {
 	}
 
 	@PostMapping("/receive")
-	public ResponseEntity<?> receive(@RequestBody OperationDtoRq dtoRq) {
+	public ResponseEntity<?> receive(@RequestBody OperationReceiveDtoRq dtoRq) {
 		try {
 			return status(CREATED).body(bankService.receive(dtoRq));
 		} catch (Exception e) {
