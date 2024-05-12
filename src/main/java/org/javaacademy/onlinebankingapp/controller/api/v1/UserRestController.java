@@ -1,6 +1,10 @@
 package org.javaacademy.onlinebankingapp.controller.api.v1;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.javaacademy.onlinebankingapp.dto.UserAuthenticateDtoRq;
@@ -23,6 +27,11 @@ public class UserRestController {
 
     @PostMapping("/signup")
     @Operation(summary = "Регистрация. Получение пин-кода пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "403")})
     public ResponseEntity<String> getPinCode(@RequestBody UserRegistrationDtoRq dtoRq) {
         try {
             return status(ACCEPTED).body(userService.userRegistration(dtoRq));
@@ -33,6 +42,11 @@ public class UserRestController {
 
     @PostMapping("/auth")
     @Operation(summary = "Авторизация. Получение токена пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "401")})
     public ResponseEntity<String> getToken(@RequestBody UserAuthenticateDtoRq dtoRq) {
         try {
             return status(ACCEPTED).header("token", userService.authenticateUser(dtoRq)).build();

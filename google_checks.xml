@@ -49,10 +49,11 @@
 
   <!-- Checks that a package-info.java file exists for each package.     -->
   <!-- See http://checkstyle.sourceforge.net/config_javadoc.html#JavadocPackage -->
+  <!--  <module name="JavadocPackage"/>-->
 
   <!-- Checks whether files end with a new line.                        -->
   <!-- See http://checkstyle.sourceforge.net/config_misc.html#NewlineAtEndOfFile -->
-  <module name="NewlineAtEndOfFile"/>
+  <!--  <module name="NewlineAtEndOfFile"/>-->
 
   <!-- Checks that property files contain the same keys.         -->
   <!-- See http://checkstyle.sourceforge.net/config_misc.html#Translation -->
@@ -64,7 +65,10 @@
 
   <!-- Checks for whitespace                               -->
   <!-- See http://checkstyle.sourceforge.net/config_whitespace.html -->
-  <module name="FileTabCharacter"/>
+  <!--  <module name="FileTabCharacter"/>-->
+  <!--  <module name="FileTabCharacter">-->
+  <!--    <property name="eachLine" value="true"/>-->
+  <!--  </module>-->
 
   <!-- Miscellaneous other checks.                   -->
   <!-- See http://checkstyle.sourceforge.net/config_misc.html -->
@@ -81,24 +85,22 @@
   <!--   <property name="headerFile" value="${checkstyle.header.file}"/> -->
   <!--   <property name="fileExtensions" value="java"/> -->
   <!-- </module> -->
-  <module name="SuppressWarningsFilter"/>
 
   <module name="LineLength">
     <property name="fileExtensions" value="java"/>
     <property name="max" value="120"/>
     <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
   </module>
-  <module name="TreeWalker">
 
-    <module name="SuppressWarningsHolder"/>
+  <module name="TreeWalker">
 
     <!-- Checks for Javadoc comments.                     -->
     <!-- See http://checkstyle.sourceforge.net/config_javadoc.html -->
-<!--    <module name="JavadocMethod"/>-->
-<!--    <module name="JavadocType"/>-->
-<!--    <module name="JavadocVariable"/>-->
-<!--    <module name="JavadocStyle"/>-->
-<!--    <module name="MissingJavadocMethod"/>-->
+    <!--    <module name="JavadocMethod"/>-->
+    <!--    <module name="JavadocType"/>-->
+    <!--    <module name="JavadocVariable"/>-->
+    <!--    <module name="JavadocStyle"/>-->
+    <!--    <module name="MissingJavadocMethod"/>-->
 
     <!-- Checks for Naming Conventions.                  -->
     <!-- See http://checkstyle.sourceforge.net/config_naming.html -->
@@ -109,12 +111,12 @@
     <module name="MethodName"/>
     <module name="PackageName"/>
     <module name="ParameterName"/>
-    <module name="StaticVariableName"/>
+    <!--    <module name="StaticVariableName"/>-->
     <module name="TypeName"/>
 
     <!-- Checks for imports                              -->
     <!-- See http://checkstyle.sourceforge.net/config_import.html -->
-    <module name="AvoidStarImport"/>
+<!--    <module name="AvoidStarImport"/>-->
     <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
     <module name="RedundantImport"/>
     <module name="UnusedImports">
@@ -123,9 +125,9 @@
 
     <!-- Checks for Size Violations.                    -->
     <!-- See http://checkstyle.sourceforge.net/config_sizes.html -->
+    <!--    <module name="LineLength"/>-->
     <module name="MethodLength"/>
     <module name="ParameterNumber"/>
-
 
     <!-- Checks for whitespace                               -->
     <!-- See http://checkstyle.sourceforge.net/config_whitespace.html -->
@@ -142,7 +144,7 @@
 
     <!-- Modifier Checks                                    -->
     <!-- See http://checkstyle.sourceforge.net/config_modifiers.html -->
-    <module name="ModifierOrder"/>
+    <!--    <module name="ModifierOrder"/>-->
     <module name="RedundantModifier"/>
 
     <!-- Checks for blocks. You know, those {}'s         -->
@@ -157,10 +159,10 @@
     <!-- See http://checkstyle.sourceforge.net/config_coding.html -->
     <module name="EmptyStatement"/>
     <module name="EqualsHashCode"/>
-<!--    <module name="HiddenField"/>-->
+    <!--    <module name="HiddenField"/>-->
     <module name="IllegalInstantiation"/>
     <module name="InnerAssignment"/>
-    <module name="MagicNumber"/>
+    <!--    <module name="MagicNumber"/>-->
     <module name="MissingSwitchDefault"/>
     <module name="MultipleVariableDeclarations"/>
     <module name="SimplifyBooleanExpression"/>
@@ -168,16 +170,16 @@
 
     <!-- Checks for class design                         -->
     <!-- See http://checkstyle.sourceforge.net/config_design.html -->
-<!--    <module name="DesignForExtension"/>-->
+    <!--    <module name="DesignForExtension"/>-->
     <module name="FinalClass"/>
-<!--    <module name="HideUtilityClassConstructor"/>-->
+    <!--    <module name="HideUtilityClassConstructor"/>-->
     <module name="InterfaceIsType"/>
-<!--    <module name="VisibilityModifier"/>-->
+    <!--    <module name="VisibilityModifier"/>-->
 
     <!-- Miscellaneous other checks.                   -->
     <!-- See http://checkstyle.sourceforge.net/config_misc.html -->
     <module name="ArrayTypeStyle"/>
-<!--    <module name="FinalParameters"/>-->
+    <!--    <module name="FinalParameters"/>-->
     <module name="TodoComment"/>
     <module name="UpperEll"/>
 

@@ -23,7 +23,8 @@ public class UserService {
         if (userRepository.searchUserByPhoneNumber(userRegistrationDtoRq.getPhoneNumber())) {
             throw new RegistrationException("Пользователь с таким телефоном уже зарегистрирован в системе!");
         }
-        User addedUser = userRepository.addUser(converterComponent.convertUserRegistrationDtoRqToUserEntity(userRegistrationDtoRq));
+        User addedUser = userRepository.addUser(converterComponent
+                .convertUserRegistrationDtoRqToUserEntity(userRegistrationDtoRq));
         String pinCode = securityService.generatePin();
         authenticationService.addNewUserData(addedUser.getUuid(), pinCode);
         return pinCode;

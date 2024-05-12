@@ -1,15 +1,16 @@
 package org.javaacademy.onlinebankingapp.repository.impl;
 
+import lombok.Getter;
 import org.javaacademy.onlinebankingapp.entity.Account;
 import org.javaacademy.onlinebankingapp.entity.User;
 import org.javaacademy.onlinebankingapp.repository.AccountRepositoryInterface;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 @Repository
 public class AccountRepository implements AccountRepositoryInterface {
+    @Getter
     private final SortedMap<String, Account> accountRepositoryBd = new TreeMap<>();
 
     @Override

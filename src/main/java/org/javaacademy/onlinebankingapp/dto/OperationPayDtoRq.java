@@ -11,4 +11,5 @@ public class OperationPayDtoRq {
     private String accountNumberFrom;
     private String accountNumberTo;
     private String purposeOfPayment;
+    private String bankNameTo;
 }

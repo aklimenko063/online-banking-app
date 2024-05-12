@@ -1,10 +1,8 @@
 package org.javaacademy.onlinebankingapp.repository.impl;
 
 import org.javaacademy.onlinebankingapp.entity.Operation;
-import org.javaacademy.onlinebankingapp.entity.User;
 import org.javaacademy.onlinebankingapp.repository.OperationRepositoryInterface;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
 import java.util.*;
 

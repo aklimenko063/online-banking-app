@@ -24,7 +24,7 @@ public class BankPartnerIntegrationService {
     private final ConverterComponent converterComponent;
     private final ObjectMapper objectMapper;
 
-    public OperationDtoRs transferMoney(TransferDtoRq dtoRq) {
+    public OperationDtoRs transferMoneyToBankPartner(TransferDtoRq dtoRq) {
         String baseUrl = String.format("%s:%s%s",
                 bankProperties.getPartnerUrl(),
                 bankProperties.getPartnerPort(),

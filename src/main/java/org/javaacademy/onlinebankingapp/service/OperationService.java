@@ -4,11 +4,9 @@ import lombok.Data;
 import org.javaacademy.onlinebankingapp.dto.OperationPayDtoRq;
 import org.javaacademy.onlinebankingapp.dto.OperationDtoRs;
 import org.javaacademy.onlinebankingapp.dto.OperationReceiveDtoRq;
-import org.javaacademy.onlinebankingapp.dto.UserDtoRs;
 import org.javaacademy.onlinebankingapp.entity.Operation;
 import org.javaacademy.onlinebankingapp.repository.OperationRepositoryInterface;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 import java.util.function.Function;
 
@@ -24,7 +22,8 @@ public class OperationService {
 
 	public SortedSet<Operation> getAllOperationByNumberAccount(String numberAccount) {
 		SortedSet<Operation> operations = new TreeSet<>(comparator(Operation::getCreationDateTime));
-		List<Operation> allOperationByNumberAccount = operationRepository.getAllOperationByNumberAccount(numberAccount);
+		List<Operation> allOperationByNumberAccount = operationRepository
+				.getAllOperationByNumberAccount(numberAccount);
 		operations.addAll(allOperationByNumberAccount);
 		return operations;
 	}
@@ -43,10 +42,11 @@ public class OperationService {
 		return converterComponent.convertOperationEntityToOperationDtoRs(operationDb);
 	}
 
-	public SortedSet<OperationDtoRs> getAllOperationByUser(UserDtoRs userDtoRs) {
-		List<String> allUserAccounts = accountService.getAllUserAccounts(userDtoRs);
+	public SortedSet<OperationDtoRs> getAllOperationByUser(String token) {
+		List<String> allUserAccounts = accountService.getAllUserAccounts(token);
 		SortedSet<Operation> operations = new TreeSet<>(comparator(Operation::getCreationDateTime));
-		SortedSet<OperationDtoRs> allOperations = new TreeSet<>(comparator(OperationDtoRs::getCreationDateTime));
+		SortedSet<OperationDtoRs> allOperations =
+				new TreeSet<>(comparator(OperationDtoRs::getCreationDateTime));
 		allUserAccounts.forEach(e -> operations.addAll(getAllOperationByNumberAccount(e)));
 		allOperations.addAll(operations.stream()
 				.map(e -> converterComponent.convertOperationEntityToOperationDtoRs(e))

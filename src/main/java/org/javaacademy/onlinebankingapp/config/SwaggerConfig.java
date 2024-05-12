@@ -23,6 +23,14 @@ public class SwaggerConfig {
         serverEuroBank.setUrl("http://localhost:8001");
         serverEuroBank.setDescription("Сервер EuroBank");
 
+        Server serverProdMoneyBank = new Server();
+        serverProdMoneyBank.setUrl("http://moneybank.smr63.ru:8082");
+        serverProdMoneyBank.setDescription("Сервер ProdMoneyBank");
+
+        Server serverProdEuroBank = new Server();
+        serverProdEuroBank.setUrl("http://eurobank.smr63.ru:8001");
+        serverProdEuroBank.setDescription("Сервер ProdEuroBank");
+
         Contact contactDev = new Contact();
         contactDev.setName("Klimenko AV");
         contactDev.setEmail("KlimenkoAV@smr63.ru");
@@ -40,6 +48,10 @@ public class SwaggerConfig {
 
         return new OpenAPI()
                 .info(info)
-                .servers(List.of(serverMoneyBank, serverEuroBank));
+                .servers(List.of(
+                        serverMoneyBank,
+                        serverEuroBank,
+                        serverProdMoneyBank,
+                        serverProdEuroBank));
     }
 }

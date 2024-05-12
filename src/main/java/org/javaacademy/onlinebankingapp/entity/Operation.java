@@ -1,10 +1,8 @@
 package org.javaacademy.onlinebankingapp.entity;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import org.javaacademy.onlinebankingapp.enums.TypeOperation;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;

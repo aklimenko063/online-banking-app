@@ -45,6 +45,12 @@ public class OnlineBankingRestControllerAdvice {
 				.body(e.getMessage());
 	}
 
+	@ExceptionHandler(BankNotFoundException.class)
+	public ResponseEntity<String> handleBankNotFoundException(Exception e) {
+		return ResponseEntity.status(HttpStatus.FORBIDDEN)
+				.body(e.getMessage());
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> handleException(Exception e) {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

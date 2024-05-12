@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 
 @Data
 public class TransferDtoRq {
-    private String bankName;
     @NonNull
     private BigDecimal sum;
     @NonNull

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 public abstract class BankProperties {
     @Value("${bank.name}")
     private String name;
+    @Value("${bank.partner.name}")
+    private String partnerBankName;
     @Value("${bank.partner.url}")
     private String partnerUrl;
     @Value("${bank.partner.port}")

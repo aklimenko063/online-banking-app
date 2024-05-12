@@ -63,4 +63,11 @@ public class ConverterComponent {
 				dtoRq.getNumberAccountTo(),
 				dtoRq.getPurposeOfPayment());
 	}
+
+	public OperationReceiveDtoRq convertOperationPayRqToOperationReceiveDtoRq(OperationPayDtoRq dtoRq) {
+		return new OperationReceiveDtoRq(
+				dtoRq.getSum(),
+				dtoRq.getAccountNumberTo(),
+				dtoRq.getPurposeOfPayment());
+	}
 }

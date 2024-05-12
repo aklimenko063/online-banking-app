@@ -1,6 +1,7 @@
 bank:
   name: LLC Eurobank
   partner:
+    name: LLC Moneybank
     url: http://localhost
     port: 8082
   account_prefix_number: 4081_8001_0000_0000
